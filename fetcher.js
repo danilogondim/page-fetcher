@@ -4,9 +4,16 @@ const fs = require('fs');
 const url = process.argv[2];
 const localFilePath = process.argv[3];
 
-console.log(url);
-console.log(localFilePath);
-
 request(url, (error, response, body) => {
-  console.log(body);
+  fs.writeFile(localFilePath, body, (err) => {
+    if (err) {
+      throw err;
+    }
+    fs.stat(localFilePath, (err, stats) => {
+      if (err) {
+        throw err;
+      }
+      console.log(`Downloaded and saved ${stats.size} bytes to ${localFilePath}`);
+    });
+  });
 });
