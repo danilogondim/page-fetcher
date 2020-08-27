@@ -5,6 +5,9 @@ const url = process.argv[2];
 const localFilePath = process.argv[3];
 
 request(url, (error, response, body) => {
+  if (error) {
+    throw error;
+  }
   fs.writeFile(localFilePath, body, (err) => {
     if (err) {
       throw err;
